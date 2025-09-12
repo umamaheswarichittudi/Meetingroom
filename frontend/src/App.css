@@ -1,0 +1,1043 @@
+/* ================= RESET & GLOBAL ================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body, html, #root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fa;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  margin: 0;
+  position: relative;
+}
+
+/* App Container */
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-left: 70px; /* adjust for logo */
+  padding-top: 70px;  /* Give room for the fixed navbar */
+  flex-grow: 1; /* Allow it to take the remaining space */
+  overflow: auto; /* Make content scrollable */
+  align-items: center; /* Center the content horizontally */
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Fix navbar to top */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Adjust body content layout to scroll */
+.content {
+  margin-top: 70px; /* Ensure content starts after the fixed navbar */
+  overflow-y: auto; /* Allow scrolling within the content area */
+  flex-grow: 1; /* Makes the content take up remaining space */
+  padding: 10px;
+  width: 100%; /* Ensures it takes the full width */
+  display: flex;
+  justify-content: center; /* Horizontally centers the content */
+  align-items: flex-start; /* Aligns content to the top */
+  flex-direction: column; /* Ensures the content stays in a column layout */
+}
+
+.logo {
+  height: 170px;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #007bff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* ================= AUTH (Login / Signup) ================= */
+.auth-box {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.auth-box h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 0.85rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.auth-box input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.auth-box button:hover {
+  background-color: #357ab7;
+  transform: scale(1.03);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 0.3rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin: -0.5rem 0 0.8rem;
+}
+
+/* ================= LANDING ================= */
+.landing-box {
+  background: #fff;
+  padding: 3rem 4rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 400px;
+  margin-top: 50px;
+}
+
+.landing-box h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.landing-box button {
+  width: 100%;
+  padding: 1rem;
+  margin: 0.7rem 0;
+  border: none;
+  border-radius: 12px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.landing-box button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+/* ================= ROOMS ================= */
+.rooms-box {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.rooms-box h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #357ab7;
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.room-card {
+  background-color: #e0f7fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.room-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.room-card p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.room-card button {
+  background-color: #357ab7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 80%;
+  margin-top: 10px;
+}
+
+.room-card button:hover {
+  background-color: #2a6db4;
+}
+
+.room-card .occupied {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.room-card .free {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.room-card button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Back button inside rooms */
+.rooms-box button {
+  margin-top: 20px;
+  padding: 0.6rem 1.2rem;
+  background-color: #357ab7;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  width: auto;
+}
+
+.rooms-box button:hover {
+  background-color: #4a90e2;
+}
+
+/* ================= MODAL ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal h2 {
+  margin-bottom: 1rem;
+  font-size: 1.7rem;
+  color: #333;
+}
+
+.modal p {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn.confirm {
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn.confirm:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+.btn.cancel {
+  background-color: #357ab7;
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* ================= ADMIN DASHBOARD ================= */
+/* Admin Dashboard Styling */
+/* .admin-dashboard {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 1150px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+} */
+
+/* Heading for the rooms list */
+.admin-dashboard h3 {
+  font-size: 1.8rem;
+  color: #003366;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Room List Container */
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-right: 40px;
+}
+
+/* Individual Room Item */
+.room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect for Room Item */
+.room-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Room Name */
+.room-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* View Bookings Button */
+.view-btn {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover Effect */
+.view-btn:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+/* Button Active State */
+.view-btn:active {
+  transform: scale(0.98);
+}
+
+
+/* ================= BOOKING PAGE ================= */
+.booking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: white;
+  padding: 20px;
+}
+
+.booking-container h2 {
+  margin-bottom: 20px;
+  color: #003366;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.booking-card {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  width: 450px;
+  max-width: 95%;
+  text-align: center;
+}
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.room-name { font-weight: bold; font-size: 16px; }
+
+.view-btn {
+  background: #0099ff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.view-btn:hover { background: #007acc; }
+
+.date-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.date-filter input {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+}
+
+.apply-btn {
+  background: #28a745;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.apply-btn:hover { background: #218838; }
+
+/* Booking Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 14px;
+}
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+table th {
+  background: #f1f1f1;
+  color: #222;
+}
+table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.download-btn, .back-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.download-btn { background: #007bff; }
+.download-btn:hover { background: #0056b3; }
+
+.back-btn { background: #6c757d; }
+.back-btn:hover { background: #5a6268; }
+/* Container styling */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Card styling */
+/* .card {
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+} */
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.card h3 {
+  margin: 20px 0 10px;
+  font-size: 1.3rem;
+  color: #444;
+}
+
+/* Status styles */
+.status {
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.occupied {
+  background-color: #ffe5e5;
+  color: #d90429;
+}
+
+.vacant {
+  background-color: #e6ffe6;
+  color: #1b8a1b;
+}
+
+/* People count */
+.people {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* AC status */
+.ac-info {
+  margin: 6px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.ac-on {
+  background: #e0f7fa;
+  color: #00796b;
+}
+
+.ac-off {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* Light status */
+.light-info {
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.light-on {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.light-off {
+  background: #f8f9fa;
+  color: #6c757d;
+}
+
+/* Button styling */
+.btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #ffffff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+.side-by-side {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.booking-card {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating Box Container */
+.room-details-container {
+  width: 1000;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #ffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.room-details-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Section */
+.room-details-container h2 {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Subheaders for each section */
+.room-details-container h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Status Display Section */
+.status {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.occupied {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.vacant {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* AC Section */
+.ac-info {
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.ac-on {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.ac-off {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Light Section */
+.light-info {
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.light-on {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.light-off {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+/* People Count Section */
+.people {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
+  margin-top: 10px;
+}
+/* ================= MEETING PAGE ================= */
+.meeting-box {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.meeting-box h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.meeting-box button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.meeting-box button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+/* ================= SCHEDULE PAGE ================= */
+.schedule-box {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.schedule-box h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-box .react-datepicker-wrapper {
+  margin-bottom: 1rem;
+}
+
+.schedule-box button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.schedule-box button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+.schedule-box br {
+  margin: 10px 0;
+}
+
+/* ================= IMMEDIATE PAGE ================= */
+.immediate-box {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.immediate-box h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.immediate-box p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.immediate-box .react-datepicker-wrapper {
+  margin-bottom: 1rem;
+}
+
+.immediate-box button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.immediate-box button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+/* ================= BUTTON STYLES ================= */
+button {
+  padding: 12px 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #357ab7;
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
+}
+/* Main Admin Dashboard Layout */
+.admin-dashboard {
+  padding: 20px;
+  text-align: center;
+}
+
+.booking-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  width: 100%;
+}
+
+/* Title */
+.booking-card h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Room List Grid */
+.room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Room Item Card */
+.room-item {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.room-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Room Name */
+.room-name {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+/* Buttons */
+.view-btn,
+.details-btn,
+.btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* View Bookings */
+.view-btn {
+  background: #007bff;
+  color: white;
+}
+
+.view-btn:hover {
+  background: #0056b3;
+}
+
+/* Room Details */
+.details-btn {
+  background: #28a745;
+  color: white;
+}
+
+.details-btn:hover {
+  background: #1e7e34;
+}
+
+/* Back Button */
+.btn {
+  margin-top: 20px;
+  background: #6c757d;
+  color: white;
+}
+
+.btn:hover {
+  background: #5a6268;
+}
+/* DatePicker input styling */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 80%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  text-align: center;
+  background: #f9f9f9;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus effect */
+.react-datepicker__input-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+  background: #fff;
+}
+
