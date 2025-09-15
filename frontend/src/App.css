@@ -1040,4 +1040,42 @@ button:focus {
   box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
   background: #fff;
 }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background:#ffffff;
+  color: white;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 150px;
+}
+
+.nav-center {
+  flex-grow: 1;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.date-time {
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+
+.nav-right button {
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
