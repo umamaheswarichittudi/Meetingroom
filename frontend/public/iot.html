@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative; /* so we can place logo absolutely */
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+    }
+
+    .card {
+  background: lightcyan;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+   /* Let content determine the height */
+}
+
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+
+    .card-header {
+      margin-bottom: 25px;
+    }
+
+    .card-header h1 {
+      font-size: 2.2em;
+      color: #2c3e50;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    h2 {
+      margin: 30px 0 15px;
+      font-size: 1.6em;
+      color: #34495e;
+      font-weight: 600;
+    }
+
+    /* Status styles */
+    .status {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: inline-block;
+      min-width: 180px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .status.vacant {
+      background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+      color: red;
+    }
+
+    .status.occupied {
+      background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
+      color: #2c3e50;
+    }
+
+    .people {
+      font-size: 3.5em;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #2c3e50;
+    }
+
+    .ac-info, .light-info {
+      font-size: 1.3em;
+      margin-top: 10px;
+      color: #2c3e50;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .ac-on {
+      background: linear-gradient(135deg, #85ffbd 0%, #fffb7d 100%);
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .ac-off {
+      background: linear-gradient(135deg, #d3d3d3 0%, #7f8c8d 100%);
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .light-on {
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      color: red;
+      font-weight: bold;
+    }
+
+    .light-off {
+      background: linear-gradient(135deg, #7f8c8d 0%, #2c3e50 100%);
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    /* IAQ styles */
+    .iaq-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 per row */
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .iaq-item {
+      background: rgba(255, 255, 255, 0.6);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .iaq-item i {
+      font-size: 1.4em;
+      color: #34495e;
+    }
+  </style>
+</head>
+<body>
+  
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1 id="room">Conference Room</h1>
+      </div>
+
+      <h2>Room Occupancy</h2>
+      <div class="status vacant" id="status">Waiting...</div>
+      <div class="people" id="people">0</div>
+
+      <h2>AC Status</h2>
+      <div class="ac-info" id="acStatus">Waiting...</div>
+      <div class="ac-info" id="acTemp">-- °C</div>
+
+      <h2>Lights Status</h2>
+      <div class="light-info" id="lightStatus">Waiting...</div>
+
+      <h2>Indoor Air Quality (IAQ)</h2>
+      <div class="iaq-container">
+        <div class="iaq-item"><i class="fas fa-temperature-high"></i> Temperature: <span id="iaqTemp">--</span> °C</div>
+        <div class="iaq-item"><i class="fas fa-droplet"></i> Humidity: <span id="iaqHumidity">--</span> %</div>
+        <div class="iaq-item"><i class="fas fa-cloud"></i> CO₂: <span id="iaqCO2">--</span> ppm</div>
+        <div class="iaq-item"><i class="fas fa-vial"></i> TVOC: <span id="iaqTVOC">--</span> ppb</div>
+        <div class="iaq-item"><i class="fas fa-smog"></i> PM2.5: <span id="iaqPM25">--</span> µg/m³</div>
+        <div class="iaq-item"><i class="fas fa-wind"></i> PM10: <span id="iaqPM10">--</span> µg/m³</div>
+        <div class="iaq-item"><i class="fas fa-gauge"></i> Pressure: <span id="iaqPressure">--</span> hPa</div>
+        <div class="iaq-item"><i class="fas fa-battery-full"></i> Battery: <span id="iaqBattery">--</span> %</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MQTT via WebSockets -->
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    const client = mqtt.connect("wss://6fdddaf19d614da29c86428142cbe7a2.s1.eu.hivemq.cloud:8884/mqtt", {
+      username: "ruthvik",
+      password: "Iotiq369."
+    });
+
+    const topicPeople = "client/people/count";
+    const topicAC = "client/ac/status";
+    const topicLights = "client/lights/status";
+    const topicIAQ = "client/IAQ/status";
+
+    client.on("connect", () => {
+      console.log("✅ Connected to HiveMQ Cloud");
+      client.subscribe(topicPeople);
+      client.subscribe(topicAC);
+      client.subscribe(topicLights);
+      client.subscribe(topicIAQ);
+    });
+
+    client.on("message", (topic, message) => {
+      try {
+        const payloadStr = message.toString();
+        let payload;
+
+        try {
+          payload = JSON.parse(payloadStr);
+        } catch {
+          payload = payloadStr;
+        }
+
+        if (topic === topicPeople) {
+          const count = payload.total;
+          const statusEl = document.getElementById("status");
+          const peopleEl = document.getElementById("people");
+
+          if (count > 0) {
+            statusEl.innerText = "Occupied";
+            statusEl.className = "status occupied";
+          } else {
+            statusEl.innerText = "Vacant";
+            statusEl.className = "status vacant";
+          }
+          peopleEl.innerText = count;
+        }
+
+        if (topic === topicAC) {
+          const acStatusEl = document.getElementById("acStatus");
+          const acTempEl = document.getElementById("acTemp");
+
+          if (payload.status === "ON") {
+            acStatusEl.innerText = "AC: ON";
+            acStatusEl.className = "ac-info ac-on";
+          } else {
+            acStatusEl.innerText = "AC: OFF";
+            acStatusEl.className = "ac-info ac-off";
+          }
+
+          acTempEl.innerText = "Temperature: " + payload.temperature + " °C";
+        }
+
+        if (topic === topicLights) {
+          const lightStatusEl = document.getElementById("lightStatus");
+
+          const lightValue = Number(payload);
+          if (lightValue === 1) {
+            lightStatusEl.innerText = "Lights: ON";
+            lightStatusEl.className = "light-info light-on";
+          } else {
+            lightStatusEl.innerText = "Lights: OFF";
+            lightStatusEl.className = "light-info light-off";
+          }
+        }
+
+        if (topic === topicIAQ) {
+          document.getElementById("iaqTemp").innerText = payload.temperature;
+          document.getElementById("iaqHumidity").innerText = payload.humidity;
+          document.getElementById("iaqCO2").innerText = payload.co2;
+          document.getElementById("iaqTVOC").innerText = payload.tvoc;
+          document.getElementById("iaqPM25").innerText = payload.pm25;
+          document.getElementById("iaqPM10").innerText = payload.pm10;
+          document.getElementById("iaqPressure").innerText = payload.pressure;
+          document.getElementById("iaqBattery").innerText = payload.battery;
+        }
+      } catch (err) {
+        console.error("❌ Invalid message:", message.toString());
+      }
+    });
+
+    client.on("error", (err) => {
+      console.error("❌ Connection error: ", err);
+    });
+  </script>
+</body>
+</html>

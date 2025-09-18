@@ -99,13 +99,22 @@ function App() {
   const [filter, setFilter] = useState({ start: null, end: null });
 
   // ✅ IoT States
-  const [iotData, setIotData] = useState({
-    people: 0,
-    acStatus: "Waiting...",
-    acTemp: "-- °C",
-    lightStatus: "Waiting...",
-    roomStatus: "Waiting...",
-  });
+ const [iotData, setIotData] = useState({
+  people: 0,
+  acStatus: "Waiting...",
+  acTemp: "-- °C",
+  lightStatus: "Waiting...",
+  roomStatus: "Waiting...",
+  temperature: "-- °C",
+  humidity: "-- %",
+  co2: "-- ppm",
+  tvoc: "-- ppb",
+  pressure: "-- hPa",
+  pm25: "-- µg/m³",
+  pm10: "-- µg/m³",
+  battery: "-- %",
+});
+
 
   const isWithinOfficeHours = (start, end) => {
     const sHour = new Date(start).getHours();
@@ -145,55 +154,69 @@ function App() {
   }, [page]);
 
   // ✅ MQTT for IoT Room Details
-  useEffect(() => {
-    if (page !== "roomDetails") return;
+useEffect(() => {
+  if (page !== "roomDetails" && page !== "adminDashboard") return;
 
-    const client = mqtt.connect(
-      "wss://6fdddaf19d614da29c86428142cbe7a2.s1.eu.hivemq.cloud:8884/mqtt",
-      {
-        username: "ruthvik",
-        password: "Iotiq369.",
+  const client = mqtt.connect(
+    "wss://6fdddaf19d614da29c86428142cbe7a2.s1.eu.hivemq.cloud:8884/mqtt",
+    {
+      username: "ruthvik",
+      password: "Iotiq369.",
+    }
+  );
+
+  client.on("connect", () => {
+    client.subscribe("client/people/count");
+    client.subscribe("client/ac/status");
+    client.subscribe("client/lights/status");
+    client.subscribe("client/IAQ/status");
+  });
+
+  client.on("message", (topic, message) => {
+    const payloadStr = message.toString();
+    let payload;
+    try {
+      payload = JSON.parse(payloadStr);
+    } catch {
+      payload = payloadStr;
+    }
+
+    setIotData((prev) => {
+      const updated = { ...prev };
+      if (topic === "client/people/count") {
+        const count = payload.total || 0;
+        updated.people = count;
+        updated.roomStatus = count > 0 ? "Occupied" : "Vacant";
       }
-    );
-
-    client.on("connect", () => {
-      client.subscribe("client/people/count");
-      client.subscribe("client/ac/status");
-      client.subscribe("client/lights/status");
-    });
-
-    client.on("message", (topic, message) => {
-      const payloadStr = message.toString();
-      let payload;
-      try {
-        payload = JSON.parse(payloadStr);
-      } catch {
-        payload = payloadStr;
+      if (topic === "client/ac/status") {
+        updated.acStatus = payload.status === "ON" ? "AC: ON" : "AC: OFF";
+        updated.acTemp = `Temperature: ${payload.temperature} °C`;
+      }
+      if (topic === "client/lights/status") {
+        const lightValue = Number(payload);
+        updated.lightStatus =
+          lightValue === 1 ? "Lights: ON" : "Lights: OFF";
       }
 
-      setIotData((prev) => {
-        const updated = { ...prev };
-        if (topic === "client/people/count") {
-          const count = payload.total || 0;
-          updated.people = count;
-          updated.roomStatus = count > 0 ? "Occupied" : "Vacant";
-        }
-        if (topic === "client/ac/status") {
-          updated.acStatus = payload.status === "ON" ? "AC: ON" : "AC: OFF";
-          updated.acTemp = `Temperature: ${payload.temperature} °C`;
-        }
-        if (topic === "client/lights/status") {
-          const lightValue = Number(payload);
-          updated.lightStatus = lightValue === 1 ? "Lights: ON" : "Lights: OFF";
-        }
-        return updated;
-      });
+      if (topic === "client/IAQ/status") {
+  updated.temperature = payload.temperature + " °C";
+  updated.humidity = payload.humidity + " %";
+  updated.co2 = payload.co2 + " ppm";
+  updated.tvoc = payload.tvoc + " ppb";
+  updated.pressure = payload.pressure + " hPa";
+  updated.pm25 = payload.pm2_5 + " µg/m³";
+  updated.pm10 = payload.pm10 + " µg/m³";
+  updated.battery = payload.battery + " %";
+}
+ 
+      return updated;
     });
+  });
 
-    return () => {
-      client.end();
-    };
-  }, [page]);
+  return () => {
+    client.end();
+  };
+}, [page]);
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -298,12 +321,14 @@ function App() {
     <div>
       <Navbar setPage={setPage} username={username} setUsername={setUsername} />
       <div className="app-container">
-        <h1>Meeting Room Booking</h1>
+        
         <br />
 
         {/* ✅ Landing */}
         {page === "landing" && (
+
           <div className="landing-box">
+<h1>Meeting Room Booking</h1>
             <div className="landing-buttons">
               <button onClick={() => setPage("login")} className="btn primary">
                 User Login
@@ -416,7 +441,7 @@ function App() {
       <div className="side-by-side">
         {/* Left Side → Bookings */}
         <div className="booking-card">
-          <h3>Room: {selectedAdminRoom.name}</h3>
+          <h3>{selectedAdminRoom.name}</h3>
 
           {/* Date Filter */}
           {/* <div className="date-filter">
@@ -528,9 +553,9 @@ function App() {
         {/* Right Side → IoT Room Details */}
         <div className="room-details-container">
           <div className="card">
-            <h2>IOTIQ Meeting Room</h2>
+            <h2>{selectedAdminRoom.name} </h2>
 
-            <h3>Room Occupancy</h3>
+            <h3>Occupancy</h3>
             <div
               className={`status ${
                 iotData.roomStatus === "Occupied" ? "occupied" : "vacant"
@@ -540,7 +565,7 @@ function App() {
             </div>
             <div className="people">{iotData.people}</div>
 
-            <h3>AC Status</h3>
+           
             <div
               className={`ac-info ${
                 iotData.acStatus === "AC: ON" ? "ac-on" : "ac-off"
@@ -550,14 +575,44 @@ function App() {
             </div>
             <div className="ac-info">{iotData.acTemp}</div>
 
-            <h3>Lights Status</h3>
+         
             <div
               className={`light-info ${
                 iotData.lightStatus === "Lights: ON" ? "light-on" : "light-off"
               }`}
             >
               {iotData.lightStatus}
+
+
             </div>
+
+<div className="iaq-header">
+  <h3>   Indoor Air Quality</h3>
+<span
+  className="iaq-status-dot"
+  style={{
+    backgroundColor:
+      iotData.co2 < 1000
+        ? "green"
+        : iotData.co2 <= 1500
+        ? "orange"
+        : "red",
+  }}
+></span>
+</div>
+
+<div className="iaq-container">
+  <div className="iaq-item">🌡 Temperature: {iotData.temperature}</div>
+  <div className="iaq-item">💧 Humidity: {iotData.humidity}</div>
+  <div className="iaq-item">🌬 CO₂: {iotData.co2}</div>
+  <div className="iaq-item">🧪 TVOC: {iotData.tvoc}</div>
+  <div className="iaq-item">🌫 PM2.5: {iotData.pm25}</div>
+  <div className="iaq-item">💨 PM10: {iotData.pm10}</div>
+  <div className="iaq-item">📊 Pressure: {iotData.pressure}</div>
+  <div className="iaq-item">🔋 Battery: {iotData.battery}</div>
+</div>
+
+
           </div>
         </div>
       </div>
@@ -686,7 +741,7 @@ function App() {
                   >
                     <h3>{room.name}</h3>
                     <p>Capacity: {room.capacity}</p>
-                    <p>Facilities: {room.facilities.join(", ")}</p>
+                    <p>Facilities: Wi-Fi 📶, Projector 📽️, F&B 🍽️☕</p>
                     {occupied ? (
                       <div>
                         <p style={{ color: "red" }}>
